@@ -16,5 +16,9 @@ public enum DirectoryItemType
     /// <summary>
     /// A folder
     /// </summary>
-    Folder
+    Folder,
+    /// <summary>
+    /// Expanded folder
+    /// </summary>
+    OpenFolder
 }

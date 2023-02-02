@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
@@ -20,6 +19,7 @@ public class HeaderToImageConverter : IValueConverter
         {
             DirectoryItemType.Drive => "Images/drive.png",
             DirectoryItemType.Folder => "Images/folder-closed.png",
+            DirectoryItemType.OpenFolder => "Images/folder-open.png",
             _ => "Images/file.png"
         };
 

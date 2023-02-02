@@ -13,7 +13,7 @@ public class RelayCommand : ICommand
     /// <summary>
     /// The action to run
     /// </summary>
-    private Action _action;
+    private readonly Action _action;
 
     #endregion
 

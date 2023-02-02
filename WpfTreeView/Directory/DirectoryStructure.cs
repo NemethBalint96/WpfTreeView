@@ -15,7 +15,6 @@ public class DirectoryStructure
     /// <returns></returns>
     public static List<DirectoryItem> GetLogicalDrives()
     {
-
         // Get every logical drive on the machine
         return Directory.GetLogicalDrives().Select(drive => new DirectoryItem { FullPath = drive, Type = DirectoryItemType.Drive }).ToList();
     }

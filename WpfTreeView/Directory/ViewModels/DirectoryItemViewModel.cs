@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 
@@ -37,7 +38,7 @@ public class DirectoryItemViewModel : BaseViewModel
     public bool CanExpand => Type != DirectoryItemType.File;
 
     /// <summary>
-    /// Indicate ifthe current item is expanded or not
+    /// Indicate if the current item is expanded or not
     /// </summary>
     public bool IsExpanded
     {
@@ -49,11 +50,23 @@ public class DirectoryItemViewModel : BaseViewModel
         {
             // If the UI tells us to expand...
             if (value == true)
+            {
+                // If it is a folder change to open folder
+                if (Type is DirectoryItemType.Folder)
+                    Type = DirectoryItemType.OpenFolder;
+
                 // Fid all children
                 Expand();
+            }
             // If  the UI tells us to close
             else
+            {
+                // If it is an open folder change to folder
+                if (Type is DirectoryItemType.OpenFolder)
+                    Type = DirectoryItemType.Folder;
+
                 ClearChildren();
+            }
         }
     }
 
@@ -100,8 +113,29 @@ public class DirectoryItemViewModel : BaseViewModel
         // Clear items
         Children = new ObservableCollection<DirectoryItemViewModel>();
 
-        // Show the expand arrow if we are not a file
-        if (Type != DirectoryItemType.File)
+        var hasChild = false;
+        // Try and get directories from the folder
+        // ignoring any issues doing so
+        try
+        {
+            hasChild = Directory.GetDirectories(FullPath).Length > 0;
+        }
+        catch { }
+
+        // If we already know about children don't search for more
+        if (!hasChild)
+        {
+            // Try and get files from the folder
+            // ignoring any issues doing so
+            try
+            {
+                hasChild = Directory.GetFiles(FullPath).Length > 0;
+            }
+            catch { }
+        }
+        
+        // Show the expand arrow if we are not a file and has child
+        if (Type != DirectoryItemType.File && hasChild)
             Children.Add(null);
     }
 

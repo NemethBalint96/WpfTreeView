@@ -9,6 +9,7 @@ namespace WpfTreeView;
 public class DirectoryStructureViewModel : BaseViewModel
 {
     #region Public Properites
+
     /// <summary>
     /// A list of all directories on the machine
     /// </summary>
